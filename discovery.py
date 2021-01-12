@@ -15,7 +15,7 @@ from homeassistant.helpers.dispatcher import (
 from homeassistant.helpers.typing import HomeAssistantType
 from homeassistant.loader import async_get_mqtt
 
-from .. import mqtt
+from .. import zj2m 
 from .abbreviations import ABBREVIATIONS, DEVICE_ABBREVIATIONS
 from .const import (
     ATTR_DISCOVERY_HASH,
