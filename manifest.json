@@ -1,9 +1,9 @@
 {
-  "domain": "mqtt",
-  "name": "MQTT",
+  "domain": "zj2m",
+  "name": "ZJ2M",
   "config_flow": true,
-  "documentation": "https://www.home-assistant.io/integrations/mqtt",
+  "documentation": "TBD",
   "requirements": ["paho-mqtt==1.5.1"],
   "dependencies": ["http"],
-  "codeowners": ["@home-assistant/core", "@emontnemery"]
+  "codeowners": []
 }
