@@ -34,7 +34,7 @@ from .util import MQTT_WILL_BIRTH_SCHEMA
 _LOGGER = logging.getLogger(__name__)
 
 
-@config_entries.HANDLERS.register("mqtt")
+@config_entries.HANDLERS.register("zj2m")
 class FlowHandler(config_entries.ConfigFlow):
     """Handle a config flow."""
 
