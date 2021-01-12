@@ -549,7 +549,7 @@ class MQTT:
         """Initialize Home Assistant MQTT client."""
         # We don't import on the top because some integrations
         # should be able to optionally rely on MQTT.
-        import paho.zj2m.client as mqtt  # pylint: disable=import-outside-toplevel
+        import paho.mqtt.client as mqtt  # pylint: disable=import-outside-toplevel
 
         self.hass = hass
         self.config_entry = config_entry
@@ -602,7 +602,7 @@ class MQTT:
         """Initialize paho client."""
         # We don't import on the top because some integrations
         # should be able to optionally rely on MQTT.
-        import paho.zj2m.client as mqtt  # pylint: disable=import-outside-toplevel
+        import paho.mqtt.client as mqtt  # pylint: disable=import-outside-toplevel
 
         if self.conf[CONF_PROTOCOL] == PROTOCOL_31:
             proto: int = zj2m.MQTTv31
@@ -697,7 +697,7 @@ class MQTT:
     async def async_connect(self) -> str:
         """Connect to the host. Does not process messages yet."""
         # pylint: disable=import-outside-toplevel
-        import paho.zj2m.client as mqtt
+        import paho.mqtt.client as mqtt
 
         result: int = None
         try:
@@ -802,7 +802,7 @@ class MQTT:
         message.
         """
         # pylint: disable=import-outside-toplevel
-        import paho.zj2m.client as mqtt
+        import paho.mqtt.client as mqtt
 
         if result_code != zj2m.CONNACK_ACCEPTED:
             _LOGGER.error(
@@ -959,7 +959,7 @@ class MQTT:
 def _raise_on_error(result_code: int) -> None:
     """Raise error if error result."""
     # pylint: disable=import-outside-toplevel
-    import paho.zj2m.client as mqtt
+    import paho.mqtt.client as mqtt
 
     if result_code != 0:
         raise HomeAssistantError(
@@ -969,7 +969,7 @@ def _raise_on_error(result_code: int) -> None:
 
 def _matcher_for_topic(subscription: str) -> Any:
     # pylint: disable=import-outside-toplevel
-    from paho.zj2m.matcher import MQTTMatcher
+    from paho.mqtt.matcher import MQTTMatcher
 
     matcher = MQTTMatcher()
     matcher[subscription] = True

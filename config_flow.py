@@ -329,7 +329,7 @@ class MQTTOptionsFlowHandler(config_entries.OptionsFlow):
 def try_connection(broker, port, username, password, protocol="3.1"):
     """Test if we can connect to an MQTT broker."""
     # pylint: disable=import-outside-toplevel
-    import paho.zj2m.client as mqtt
+    import paho.mqtt.client as mqtt
 
     if protocol == "3.1":
         proto = zj2m.MQTTv31
