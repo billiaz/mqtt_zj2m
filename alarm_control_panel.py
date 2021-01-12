@@ -71,7 +71,7 @@ DEFAULT_ARM_CUSTOM_BYPASS = "ARM_CUSTOM_BYPASS"
 DEFAULT_DISARM = "DISARM"
 DEFAULT_NAME = "MQTT Alarm"
 PLATFORM_SCHEMA = (
-    mqtt.MQTT_BASE_PLATFORM_SCHEMA.extend(
+    zj2m.MQTT_BASE_PLATFORM_SCHEMA.extend(
         {
             vol.Optional(CONF_CODE): cv.string,
             vol.Optional(CONF_CODE_ARM_REQUIRED, default=True): cv.boolean,
@@ -79,7 +79,7 @@ PLATFORM_SCHEMA = (
             vol.Optional(
                 CONF_COMMAND_TEMPLATE, default=DEFAULT_COMMAND_TEMPLATE
             ): cv.template,
-            vol.Required(CONF_COMMAND_TOPIC): mqtt.valid_publish_topic,
+            vol.Required(CONF_COMMAND_TOPIC): zj2m.valid_publish_topic,
             vol.Optional(CONF_DEVICE): MQTT_ENTITY_DEVICE_INFO_SCHEMA,
             vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
             vol.Optional(CONF_PAYLOAD_ARM_AWAY, default=DEFAULT_ARM_AWAY): cv.string,
@@ -89,8 +89,8 @@ PLATFORM_SCHEMA = (
                 CONF_PAYLOAD_ARM_CUSTOM_BYPASS, default=DEFAULT_ARM_CUSTOM_BYPASS
             ): cv.string,
             vol.Optional(CONF_PAYLOAD_DISARM, default=DEFAULT_DISARM): cv.string,
-            vol.Optional(CONF_RETAIN, default=mqtt.DEFAULT_RETAIN): cv.boolean,
-            vol.Required(CONF_STATE_TOPIC): mqtt.valid_subscribe_topic,
+            vol.Optional(CONF_RETAIN, default=zj2m.DEFAULT_RETAIN): cv.boolean,
+            vol.Required(CONF_STATE_TOPIC): zj2m.valid_subscribe_topic,
             vol.Optional(CONF_UNIQUE_ID): cv.string,
             vol.Optional(CONF_VALUE_TEMPLATE): cv.template,
         }
@@ -279,11 +279,11 @@ class MqttAlarm(MqttEntity, alarm.AlarmControlPanelEntity):
         self._publish(code, action)
 
     def _publish(self, code, action):
-        """Publish via mqtt."""
+        """Publish via zj2m."""
         command_template = self._config[CONF_COMMAND_TEMPLATE]
         values = {"action": action, "code": code}
         payload = command_template.async_render(**values, parse_result=False)
-        mqtt.async_publish(
+        zj2m.async_publish(
             self.hass,
             self._config[CONF_COMMAND_TOPIC],
             payload,

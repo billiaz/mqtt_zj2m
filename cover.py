@@ -121,12 +121,12 @@ def validate_options(value):
 
 
 PLATFORM_SCHEMA = vol.All(
-    mqtt.MQTT_BASE_PLATFORM_SCHEMA.extend(
+    zj2m.MQTT_BASE_PLATFORM_SCHEMA.extend(
         {
-            vol.Optional(CONF_COMMAND_TOPIC): mqtt.valid_publish_topic,
+            vol.Optional(CONF_COMMAND_TOPIC): zj2m.valid_publish_topic,
             vol.Optional(CONF_DEVICE): MQTT_ENTITY_DEVICE_INFO_SCHEMA,
             vol.Optional(CONF_DEVICE_CLASS): DEVICE_CLASSES_SCHEMA,
-            vol.Optional(CONF_GET_POSITION_TOPIC): mqtt.valid_subscribe_topic,
+            vol.Optional(CONF_GET_POSITION_TOPIC): zj2m.valid_subscribe_topic,
             vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
             vol.Optional(CONF_OPTIMISTIC, default=DEFAULT_OPTIMISTIC): cv.boolean,
             vol.Optional(CONF_PAYLOAD_CLOSE, default=DEFAULT_PAYLOAD_CLOSE): cv.string,
@@ -138,16 +138,16 @@ PLATFORM_SCHEMA = vol.All(
             vol.Optional(CONF_POSITION_OPEN, default=DEFAULT_POSITION_OPEN): int,
             vol.Optional(CONF_RETAIN, default=DEFAULT_RETAIN): cv.boolean,
             vol.Optional(CONF_SET_POSITION_TEMPLATE): cv.template,
-            vol.Optional(CONF_SET_POSITION_TOPIC): mqtt.valid_publish_topic,
+            vol.Optional(CONF_SET_POSITION_TOPIC): zj2m.valid_publish_topic,
             vol.Optional(CONF_STATE_CLOSED, default=STATE_CLOSED): cv.string,
             vol.Optional(CONF_STATE_CLOSING, default=STATE_CLOSING): cv.string,
             vol.Optional(CONF_STATE_OPEN, default=STATE_OPEN): cv.string,
             vol.Optional(CONF_STATE_OPENING, default=STATE_OPENING): cv.string,
-            vol.Optional(CONF_STATE_TOPIC): mqtt.valid_subscribe_topic,
+            vol.Optional(CONF_STATE_TOPIC): zj2m.valid_subscribe_topic,
             vol.Optional(
                 CONF_TILT_CLOSED_POSITION, default=DEFAULT_TILT_CLOSED_POSITION
             ): int,
-            vol.Optional(CONF_TILT_COMMAND_TOPIC): mqtt.valid_publish_topic,
+            vol.Optional(CONF_TILT_COMMAND_TOPIC): zj2m.valid_publish_topic,
             vol.Optional(
                 CONF_TILT_INVERT_STATE, default=DEFAULT_TILT_INVERT_STATE
             ): cv.boolean,
@@ -159,7 +159,7 @@ PLATFORM_SCHEMA = vol.All(
             vol.Optional(
                 CONF_TILT_STATE_OPTIMISTIC, default=DEFAULT_TILT_OPTIMISTIC
             ): cv.boolean,
-            vol.Optional(CONF_TILT_STATUS_TOPIC): mqtt.valid_subscribe_topic,
+            vol.Optional(CONF_TILT_STATUS_TOPIC): zj2m.valid_subscribe_topic,
             vol.Optional(CONF_TILT_STATUS_TEMPLATE): cv.template,
             vol.Optional(CONF_UNIQUE_ID): cv.string,
             vol.Optional(CONF_VALUE_TEMPLATE): cv.template,
@@ -406,7 +406,7 @@ class MqttCover(MqttEntity, CoverEntity):
 
         This method is a coroutine.
         """
-        mqtt.async_publish(
+        zj2m.async_publish(
             self.hass,
             self._config.get(CONF_COMMAND_TOPIC),
             self._config[CONF_PAYLOAD_OPEN],
@@ -427,7 +427,7 @@ class MqttCover(MqttEntity, CoverEntity):
 
         This method is a coroutine.
         """
-        mqtt.async_publish(
+        zj2m.async_publish(
             self.hass,
             self._config.get(CONF_COMMAND_TOPIC),
             self._config[CONF_PAYLOAD_CLOSE],
@@ -448,7 +448,7 @@ class MqttCover(MqttEntity, CoverEntity):
 
         This method is a coroutine.
         """
-        mqtt.async_publish(
+        zj2m.async_publish(
             self.hass,
             self._config.get(CONF_COMMAND_TOPIC),
             self._config[CONF_PAYLOAD_STOP],
@@ -458,7 +458,7 @@ class MqttCover(MqttEntity, CoverEntity):
 
     async def async_open_cover_tilt(self, **kwargs):
         """Tilt the cover open."""
-        mqtt.async_publish(
+        zj2m.async_publish(
             self.hass,
             self._config.get(CONF_TILT_COMMAND_TOPIC),
             self._config[CONF_TILT_OPEN_POSITION],
@@ -473,7 +473,7 @@ class MqttCover(MqttEntity, CoverEntity):
 
     async def async_close_cover_tilt(self, **kwargs):
         """Tilt the cover closed."""
-        mqtt.async_publish(
+        zj2m.async_publish(
             self.hass,
             self._config.get(CONF_TILT_COMMAND_TOPIC),
             self._config[CONF_TILT_CLOSED_POSITION],
@@ -493,7 +493,7 @@ class MqttCover(MqttEntity, CoverEntity):
         # The position needs to be between min and max
         level = self.find_in_range_from_percent(position)
 
-        mqtt.async_publish(
+        zj2m.async_publish(
             self.hass,
             self._config.get(CONF_TILT_COMMAND_TOPIC),
             level,
@@ -511,7 +511,7 @@ class MqttCover(MqttEntity, CoverEntity):
         else:
             position = self.find_in_range_from_percent(position, COVER_PAYLOAD)
 
-        mqtt.async_publish(
+        zj2m.async_publish(
             self.hass,
             self._config.get(CONF_SET_POSITION_TOPIC),
             position,

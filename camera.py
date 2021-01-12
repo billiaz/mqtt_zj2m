@@ -29,11 +29,11 @@ CONF_TOPIC = "topic"
 DEFAULT_NAME = "MQTT Camera"
 
 PLATFORM_SCHEMA = (
-    mqtt.MQTT_BASE_PLATFORM_SCHEMA.extend(
+    zj2m.MQTT_BASE_PLATFORM_SCHEMA.extend(
         {
             vol.Optional(CONF_DEVICE): MQTT_ENTITY_DEVICE_INFO_SCHEMA,
             vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
-            vol.Required(CONF_TOPIC): mqtt.valid_subscribe_topic,
+            vol.Required(CONF_TOPIC): zj2m.valid_subscribe_topic,
             vol.Optional(CONF_UNIQUE_ID): cv.string,
         }
     )

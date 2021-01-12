@@ -549,7 +549,7 @@ class MQTT:
         """Initialize Home Assistant MQTT client."""
         # We don't import on the top because some integrations
         # should be able to optionally rely on MQTT.
-        import paho.mqtt.client as mqtt  # pylint: disable=import-outside-toplevel
+        import paho.zj2m.client as mqtt  # pylint: disable=import-outside-toplevel
 
         self.hass = hass
         self.config_entry = config_entry
@@ -558,7 +558,7 @@ class MQTT:
         self.connected = False
         self._ha_started = asyncio.Event()
         self._last_subscribe = time.time()
-        self._mqttc: mqtt.Client = None
+        self._mqttc: zj2m.Client = None
         self._paho_lock = asyncio.Lock()
 
         self._pending_operations = {}
@@ -602,19 +602,19 @@ class MQTT:
         """Initialize paho client."""
         # We don't import on the top because some integrations
         # should be able to optionally rely on MQTT.
-        import paho.mqtt.client as mqtt  # pylint: disable=import-outside-toplevel
+        import paho.zj2m.client as mqtt  # pylint: disable=import-outside-toplevel
 
         if self.conf[CONF_PROTOCOL] == PROTOCOL_31:
-            proto: int = mqtt.MQTTv31
+            proto: int = zj2m.MQTTv31
         else:
-            proto = mqtt.MQTTv311
+            proto = zj2m.MQTTv311
 
         client_id = self.conf.get(CONF_CLIENT_ID)
         if client_id is None:
             # PAHO MQTT relies on the MQTT server to generate random client IDs.
             # However, that feature is not mandatory so we generate our own.
-            client_id = mqtt.base62(uuid.uuid4().int, padding=22)
-        self._mqttc = mqtt.Client(client_id, protocol=proto)
+            client_id = zj2m.base62(uuid.uuid4().int, padding=22)
+        self._mqttc = zj2m.Client(client_id, protocol=proto)
 
         # Enable logging
         self._mqttc.enable_logger()
@@ -626,11 +626,11 @@ class MQTT:
 
         certificate = self.conf.get(CONF_CERTIFICATE)
 
-        # For cloudmqtt.com, secured connection, auto fill in certificate
+        # For cloudzj2m.com, secured connection, auto fill in certificate
         if (
             certificate is None
             and 19999 < self.conf[CONF_PORT] < 30000
-            and self.conf[CONF_BROKER].endswith(".cloudmqtt.com")
+            and self.conf[CONF_BROKER].endswith(".cloudzj2m.com")
         ):
             certificate = os.path.join(
                 os.path.dirname(__file__), "addtrustexternalcaroot.crt"
@@ -697,7 +697,7 @@ class MQTT:
     async def async_connect(self) -> str:
         """Connect to the host. Does not process messages yet."""
         # pylint: disable=import-outside-toplevel
-        import paho.mqtt.client as mqtt
+        import paho.zj2m.client as mqtt
 
         result: int = None
         try:
@@ -712,7 +712,7 @@ class MQTT:
 
         if result is not None and result != 0:
             _LOGGER.error(
-                "Failed to connect to MQTT server: %s", mqtt.error_string(result)
+                "Failed to connect to MQTT server: %s", zj2m.error_string(result)
             )
 
         self._mqttc.loop_start()
@@ -802,12 +802,12 @@ class MQTT:
         message.
         """
         # pylint: disable=import-outside-toplevel
-        import paho.mqtt.client as mqtt
+        import paho.zj2m.client as mqtt
 
-        if result_code != mqtt.CONNACK_ACCEPTED:
+        if result_code != zj2m.CONNACK_ACCEPTED:
             _LOGGER.error(
                 "Unable to connect to the MQTT broker: %s",
-                mqtt.connack_string(result_code),
+                zj2m.connack_string(result_code),
             )
             return
 
@@ -959,17 +959,17 @@ class MQTT:
 def _raise_on_error(result_code: int) -> None:
     """Raise error if error result."""
     # pylint: disable=import-outside-toplevel
-    import paho.mqtt.client as mqtt
+    import paho.zj2m.client as mqtt
 
     if result_code != 0:
         raise HomeAssistantError(
-            f"Error talking to MQTT: {mqtt.error_string(result_code)}"
+            f"Error talking to MQTT: {zj2m.error_string(result_code)}"
         )
 
 
 def _matcher_for_topic(subscription: str) -> Any:
     # pylint: disable=import-outside-toplevel
-    from paho.mqtt.matcher import MQTTMatcher
+    from paho.zj2m.matcher import MQTTMatcher
 
     matcher = MQTTMatcher()
     matcher[subscription] = True
