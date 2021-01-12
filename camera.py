@@ -13,7 +13,7 @@ from homeassistant.helpers.reload import async_setup_reload_service
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 
 from . import CONF_QOS, DOMAIN, PLATFORMS, subscription
-from .. import mqtt
+from .. import zj2m
 from .debug_info import log_messages
 from .mixins import (
     MQTT_AVAILABILITY_SCHEMA,

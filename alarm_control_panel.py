@@ -42,7 +42,7 @@ from . import (
     PLATFORMS,
     subscription,
 )
-from .. import mqtt
+from .. import zj2m
 from .debug_info import log_messages
 from .mixins import (
     MQTT_AVAILABILITY_SCHEMA,

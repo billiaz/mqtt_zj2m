@@ -7,7 +7,7 @@ import voluptuous as vol
 from homeassistant.helpers.device_registry import EVENT_DEVICE_REGISTRY_UPDATED
 
 from . import device_trigger
-from .. import mqtt
+from .. import zj2m
 from .mixins import async_setup_entry_helper
 
 _LOGGER = logging.getLogger(__name__)
