@@ -43,7 +43,7 @@ async def async_attach_trigger(hass, config, action, automation_info):
         """Listen for MQTT messages."""
         if payload is None or payload == mqttmsg.payload:
             data = {
-                "platform": "mqtt",
+                "platform": "zj2m",
                 "topic": mqttmsg.topic,
                 "payload": mqttmsg.payload,
                 "qos": mqttmsg.qos,

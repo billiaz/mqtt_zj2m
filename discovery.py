@@ -146,7 +146,7 @@ async def async_start(
             }
             setattr(payload, "discovery_data", discovery_data)
 
-            payload[CONF_PLATFORM] = "mqtt"
+            payload[CONF_PLATFORM] = "zj2m"
 
         if discovery_hash in hass.data[PENDING_DISCOVERED]:
             pending = hass.data[PENDING_DISCOVERED][discovery_hash]["pending"]
@@ -225,7 +225,7 @@ async def async_start(
                     hass.data[CONFIG_ENTRY_IS_SETUP].add(config_entries_key)
 
             async_dispatcher_send(
-                hass, MQTT_DISCOVERY_NEW.format(component, "mqtt"), payload
+                hass, MQTT_DISCOVERY_NEW.format(component, "zj2m"), payload
             )
         else:
             # Unhandled discovery message

@@ -160,7 +160,7 @@ async def async_setup_entry_helper(hass, domain, async_setup, schema):
             raise
 
     async_dispatcher_connect(
-        hass, MQTT_DISCOVERY_NEW.format(domain, "mqtt"), async_discover
+        hass, MQTT_DISCOVERY_NEW.format(domain, "zj2m"), async_discover
     )
 
 
