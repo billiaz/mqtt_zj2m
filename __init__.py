@@ -558,7 +558,7 @@ class MQTT:
         self.connected = False
         self._ha_started = asyncio.Event()
         self._last_subscribe = time.time()
-        self._mqttc: zj2m.Client = None
+        self._mqttc: mqtt.Client = None
         self._paho_lock = asyncio.Lock()
 
         self._pending_operations = {}
@@ -605,16 +605,16 @@ class MQTT:
         import paho.mqtt.client as mqtt  # pylint: disable=import-outside-toplevel
 
         if self.conf[CONF_PROTOCOL] == PROTOCOL_31:
-            proto: int = zj2m.MQTTv31
+            proto: int = mqtt.MQTTv31
         else:
-            proto = zj2m.MQTTv311
+            proto = mqtt.MQTTv311
 
         client_id = self.conf.get(CONF_CLIENT_ID)
         if client_id is None:
             # PAHO MQTT relies on the MQTT server to generate random client IDs.
             # However, that feature is not mandatory so we generate our own.
-            client_id = zj2m.base62(uuid.uuid4().int, padding=22)
-        self._mqttc = zj2m.Client(client_id, protocol=proto)
+            client_id = mqtt.base62(uuid.uuid4().int, padding=22)
+        self._mqttc = mqtt.Client(client_id, protocol=proto)
 
         # Enable logging
         self._mqttc.enable_logger()
@@ -626,11 +626,11 @@ class MQTT:
 
         certificate = self.conf.get(CONF_CERTIFICATE)
 
-        # For cloudzj2m.com, secured connection, auto fill in certificate
+        # For cloudmqtt.com, secured connection, auto fill in certificate
         if (
             certificate is None
             and 19999 < self.conf[CONF_PORT] < 30000
-            and self.conf[CONF_BROKER].endswith(".cloudzj2m.com")
+            and self.conf[CONF_BROKER].endswith(".cloudmqtt.com")
         ):
             certificate = os.path.join(
                 os.path.dirname(__file__), "addtrustexternalcaroot.crt"
@@ -712,7 +712,7 @@ class MQTT:
 
         if result is not None and result != 0:
             _LOGGER.error(
-                "Failed to connect to MQTT server: %s", zj2m.error_string(result)
+                "Failed to connect to MQTT server: %s", mqtt.error_string(result)
             )
 
         self._mqttc.loop_start()
@@ -804,10 +804,10 @@ class MQTT:
         # pylint: disable=import-outside-toplevel
         import paho.mqtt.client as mqtt
 
-        if result_code != zj2m.CONNACK_ACCEPTED:
+        if result_code != mqtt.CONNACK_ACCEPTED:
             _LOGGER.error(
                 "Unable to connect to the MQTT broker: %s",
-                zj2m.connack_string(result_code),
+                mqtt.connack_string(result_code),
             )
             return
 
@@ -963,7 +963,7 @@ def _raise_on_error(result_code: int) -> None:
 
     if result_code != 0:
         raise HomeAssistantError(
-            f"Error talking to MQTT: {zj2m.error_string(result_code)}"
+            f"Error talking to MQTT: {mqtt.error_string(result_code)}"
         )
 
 
