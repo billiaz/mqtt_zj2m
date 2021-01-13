@@ -12,7 +12,7 @@ from homeassistant.helpers.reload import async_setup_reload_service
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 
 from . import CONF_COMMAND_TOPIC, CONF_QOS, CONF_RETAIN, DOMAIN, PLATFORMS
-from .. import mqtt_zj2m
+from .. import zj2m as zj2m
 from .mixins import (
     MQTT_AVAILABILITY_SCHEMA,
     MqttAvailability,
@@ -25,9 +25,9 @@ _LOGGER = logging.getLogger(__name__)
 DEFAULT_NAME = "MQTT Scene"
 DEFAULT_RETAIN = False
 
-PLATFORM_SCHEMA = mqtt.MQTT_BASE_PLATFORM_SCHEMA.extend(
+PLATFORM_SCHEMA =zj2m.MQTT_BASE_PLATFORM_SCHEMA.extend(
     {
-        vol.Required(CONF_COMMAND_TOPIC): mqtt.valid_publish_topic,
+        vol.Required(CONF_COMMAND_TOPIC):zj2m.valid_publish_topic,
         vol.Optional(CONF_ICON): cv.icon,
         vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
         vol.Optional(CONF_PAYLOAD_ON): cv.string,
@@ -121,7 +121,7 @@ class MqttScene(
 
         This method is a coroutine.
         """
-        mqtt.async_publish(
+       zj2m.async_publish(
             self.hass,
             self._config[CONF_COMMAND_TOPIC],
             self._config[CONF_PAYLOAD_ON],

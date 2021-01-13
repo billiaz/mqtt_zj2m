@@ -332,9 +332,9 @@ def try_connection(broker, port, username, password, protocol="3.1"):
     import paho.mqtt.client as mqtt
 
     if protocol == "3.1":
-        proto = zj2m.MQTTv31
+        proto = mqtt.MQTTv31
     else:
-        proto = zj2m.MQTTv311
+        proto = mqtt.MQTTv311
 
     client = zj2m.Client(protocol=proto)
     if username and password:

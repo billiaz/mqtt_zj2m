@@ -27,7 +27,7 @@ from . import (
     PLATFORMS,
     subscription,
 )
-from .. import mqtt_zj2m
+from .. import zj2m as zj2m
 from .debug_info import log_messages
 from .mixins import (
     MQTT_AVAILABILITY_SCHEMA,
@@ -53,7 +53,7 @@ DEFAULT_STATE_LOCKED = "LOCKED"
 DEFAULT_STATE_UNLOCKED = "UNLOCKED"
 
 PLATFORM_SCHEMA = (
-    mqtt.MQTT_RW_PLATFORM_SCHEMA.extend(
+   zj2m.MQTT_RW_PLATFORM_SCHEMA.extend(
         {
             vol.Optional(CONF_DEVICE): MQTT_ENTITY_DEVICE_INFO_SCHEMA,
             vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
@@ -177,7 +177,7 @@ class MqttLock(MqttEntity, LockEntity):
 
         This method is a coroutine.
         """
-        mqtt.async_publish(
+       zj2m.async_publish(
             self.hass,
             self._config[CONF_COMMAND_TOPIC],
             self._config[CONF_PAYLOAD_LOCK],
@@ -194,7 +194,7 @@ class MqttLock(MqttEntity, LockEntity):
 
         This method is a coroutine.
         """
-        mqtt.async_publish(
+       zj2m.async_publish(
             self.hass,
             self._config[CONF_COMMAND_TOPIC],
             self._config[CONF_PAYLOAD_UNLOCK],

@@ -24,7 +24,7 @@ from homeassistant.helpers.dispatcher import (
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 
 from . import CONF_PAYLOAD, CONF_QOS, DOMAIN, debug_info, trigger as mqtt_trigger
-from .. import mqtt_zj2m
+from .. import zj2m as zj2m
 from .const import ATTR_DISCOVERY_HASH, ATTR_DISCOVERY_TOPIC
 from .discovery import MQTT_DISCOVERY_DONE, MQTT_DISCOVERY_UPDATED, clear_discovery_hash
 from .mixins import (
@@ -62,11 +62,11 @@ TRIGGER_SCHEMA = TRIGGER_BASE_SCHEMA.extend(
     }
 )
 
-TRIGGER_DISCOVERY_SCHEMA = mqtt.MQTT_BASE_PLATFORM_SCHEMA.extend(
+TRIGGER_DISCOVERY_SCHEMA =zj2m.MQTT_BASE_PLATFORM_SCHEMA.extend(
     {
         vol.Required(CONF_AUTOMATION_TYPE): str,
         vol.Required(CONF_DEVICE): MQTT_ENTITY_DEVICE_INFO_SCHEMA,
-        vol.Required(CONF_TOPIC): mqtt.valid_subscribe_topic,
+        vol.Required(CONF_TOPIC):zj2m.valid_subscribe_topic,
         vol.Optional(CONF_PAYLOAD, default=None): vol.Any(None, cv.string),
         vol.Required(CONF_TYPE): cv.string,
         vol.Required(CONF_SUBTYPE): cv.string,
@@ -268,7 +268,7 @@ async def async_device_removed(hass: HomeAssistant, device_id: str):
             device_trigger.detach_trigger()
             clear_discovery_hash(hass, discovery_hash)
             device_trigger.remove_signal()
-            mqtt.publish(
+           zj2m.publish(
                 hass,
                 discovery_topic,
                 "",

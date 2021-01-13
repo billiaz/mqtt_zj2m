@@ -8,7 +8,7 @@ from homeassistant.helpers.typing import HomeAssistantType
 from homeassistant.loader import bind_hass
 
 from . import debug_info
-from .. import mqtt_zj2m
+from .. import zj2m as zj2m
 from .const import DEFAULT_QOS
 from .models import MessageCallbackType
 
@@ -46,7 +46,7 @@ class EntitySubscription:
         # Prepare debug data
         debug_info.add_subscription(self.hass, self.message_callback, self.topic)
 
-        self.unsubscribe_callback = await mqtt.async_subscribe(
+        self.unsubscribe_callback = awaitzj2m.async_subscribe(
             hass, self.topic, self.message_callback, self.qos, self.encoding
         )
 

@@ -7,7 +7,7 @@ from homeassistant.const import CONF_PAYLOAD, CONF_PLATFORM
 from homeassistant.core import HassJob, callback
 import homeassistant.helpers.config_validation as cv
 
-from .. import mqtt_zj2m
+from .. import zj2m as zj2m
 
 # mypy: allow-untyped-defs
 
@@ -19,8 +19,8 @@ DEFAULT_QOS = 0
 
 TRIGGER_SCHEMA = vol.Schema(
     {
-        vol.Required(CONF_PLATFORM): mqtt.DOMAIN,
-        vol.Required(CONF_TOPIC): mqtt.util.valid_subscribe_topic,
+        vol.Required(CONF_PLATFORM):zj2m.DOMAIN,
+        vol.Required(CONF_TOPIC):zj2m.util.valid_subscribe_topic,
         vol.Optional(CONF_PAYLOAD): cv.string,
         vol.Optional(CONF_ENCODING, default=DEFAULT_ENCODING): cv.string,
         vol.Optional(CONF_QOS, default=DEFAULT_QOS): vol.All(
@@ -57,7 +57,7 @@ async def async_attach_trigger(hass, config, action, automation_info):
 
             hass.async_run_hass_job(job, {"trigger": data})
 
-    remove = await mqtt.async_subscribe(
+    remove = awaitzj2m.async_subscribe(
         hass, topic, mqtt_automation_listener, encoding=encoding, qos=qos
     )
     return remove

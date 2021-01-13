@@ -15,7 +15,7 @@ from homeassistant.helpers.dispatcher import (
 from homeassistant.helpers.typing import HomeAssistantType
 from homeassistant.loader import async_get_mqtt
 
-from .. import mqtt_zj2m
+from .. import zj2m as zj2m
 from .abbreviations import ABBREVIATIONS, DEVICE_ABBREVIATIONS
 from .const import (
     ATTR_DISCOVERY_HASH,
@@ -240,7 +240,7 @@ async def async_start(
     hass.data[ALREADY_DISCOVERED] = {}
     hass.data[PENDING_DISCOVERED] = {}
 
-    hass.data[DISCOVERY_UNSUBSCRIBE] = await mqtt.async_subscribe(
+    hass.data[DISCOVERY_UNSUBSCRIBE] = awaitzj2m.async_subscribe(
         hass, f"{discovery_topic}/#", async_discovery_message_received, 0
     )
     hass.data[LAST_DISCOVERY] = time.time()
@@ -277,7 +277,7 @@ async def async_start(
 
         for topic in topics:
             key = f"{integration}_{topic}"
-            hass.data[INTEGRATION_UNSUBSCRIBE][key] = await mqtt.async_subscribe(
+            hass.data[INTEGRATION_UNSUBSCRIBE][key] = awaitzj2m.async_subscribe(
                 hass,
                 topic,
                 functools.partial(async_integration_message_received, integration),

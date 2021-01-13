@@ -13,7 +13,7 @@ from homeassistant.helpers.dispatcher import (
 )
 
 from . import CONF_QOS, CONF_TOPIC, DOMAIN, subscription
-from .. import mqtt_zj2m
+from .. import zj2m as zj2m
 from .const import ATTR_DISCOVERY_HASH, ATTR_DISCOVERY_TOPIC
 from .discovery import MQTT_DISCOVERY_DONE, MQTT_DISCOVERY_UPDATED, clear_discovery_hash
 from .mixins import (
@@ -32,7 +32,7 @@ _LOGGER = logging.getLogger(__name__)
 TAG = "tag"
 TAGS = "mqtt_tags"
 
-PLATFORM_SCHEMA = mqtt.MQTT_BASE_PLATFORM_SCHEMA.extend(
+PLATFORM_SCHEMA =zj2m.MQTT_BASE_PLATFORM_SCHEMA.extend(
     {
         vol.Optional(CONF_DEVICE): MQTT_ENTITY_DEVICE_INFO_SCHEMA,
         vol.Optional(CONF_PLATFORM): "zj2m",
@@ -204,7 +204,7 @@ class MQTTTagScanner:
             self._remove_device_updated()
         self._remove_discovery()
 
-        mqtt.publish(self.hass, discovery_topic, "", retain=True)
+       zj2m.publish(self.hass, discovery_topic, "", retain=True)
         self._sub_state = await subscription.async_unsubscribe_topics(
             self.hass, self._sub_state
         )

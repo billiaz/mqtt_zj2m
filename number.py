@@ -27,7 +27,7 @@ from . import (
     PLATFORMS,
     subscription,
 )
-from .. import mqtt_zj2m
+from .. import zj2m as zj2m
 from .debug_info import log_messages
 from .mixins import (
     MQTT_AVAILABILITY_SCHEMA,
@@ -43,7 +43,7 @@ DEFAULT_NAME = "MQTT Number"
 DEFAULT_OPTIMISTIC = False
 
 PLATFORM_SCHEMA = (
-    mqtt.MQTT_RW_PLATFORM_SCHEMA.extend(
+   zj2m.MQTT_RW_PLATFORM_SCHEMA.extend(
         {
             vol.Optional(CONF_DEVICE): MQTT_ENTITY_DEVICE_INFO_SCHEMA,
             vol.Optional(CONF_ICON): cv.icon,
@@ -159,7 +159,7 @@ class MqttNumber(MqttEntity, NumberEntity, RestoreEntity):
             self._current_number = current_number
             self.async_write_ha_state()
 
-        mqtt.async_publish(
+       zj2m.async_publish(
             self.hass,
             self._config[CONF_COMMAND_TOPIC],
             current_number,

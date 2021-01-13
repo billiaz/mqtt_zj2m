@@ -38,7 +38,7 @@ from . import (
     PLATFORMS,
     subscription,
 )
-from .. import mqtt_zj2m
+from .. import zj2m as zj2m
 from .debug_info import log_messages
 from .mixins import (
     MQTT_AVAILABILITY_SCHEMA,
@@ -76,13 +76,13 @@ OSCILLATE_OFF_PAYLOAD = "oscillate_off"
 OSCILLATION = "oscillation"
 
 PLATFORM_SCHEMA = (
-    mqtt.MQTT_RW_PLATFORM_SCHEMA.extend(
+   zj2m.MQTT_RW_PLATFORM_SCHEMA.extend(
         {
             vol.Optional(CONF_DEVICE): MQTT_ENTITY_DEVICE_INFO_SCHEMA,
             vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
             vol.Optional(CONF_OPTIMISTIC, default=DEFAULT_OPTIMISTIC): cv.boolean,
-            vol.Optional(CONF_OSCILLATION_COMMAND_TOPIC): mqtt.valid_publish_topic,
-            vol.Optional(CONF_OSCILLATION_STATE_TOPIC): mqtt.valid_subscribe_topic,
+            vol.Optional(CONF_OSCILLATION_COMMAND_TOPIC):zj2m.valid_publish_topic,
+            vol.Optional(CONF_OSCILLATION_STATE_TOPIC):zj2m.valid_subscribe_topic,
             vol.Optional(CONF_OSCILLATION_VALUE_TEMPLATE): cv.template,
             vol.Optional(CONF_PAYLOAD_HIGH_SPEED, default=SPEED_HIGH): cv.string,
             vol.Optional(CONF_PAYLOAD_LOW_SPEED, default=SPEED_LOW): cv.string,
@@ -96,12 +96,12 @@ PLATFORM_SCHEMA = (
             vol.Optional(
                 CONF_PAYLOAD_OSCILLATION_ON, default=OSCILLATE_ON_PAYLOAD
             ): cv.string,
-            vol.Optional(CONF_SPEED_COMMAND_TOPIC): mqtt.valid_publish_topic,
+            vol.Optional(CONF_SPEED_COMMAND_TOPIC):zj2m.valid_publish_topic,
             vol.Optional(
                 CONF_SPEED_LIST,
                 default=[SPEED_OFF, SPEED_LOW, SPEED_MEDIUM, SPEED_HIGH],
             ): cv.ensure_list,
-            vol.Optional(CONF_SPEED_STATE_TOPIC): mqtt.valid_subscribe_topic,
+            vol.Optional(CONF_SPEED_STATE_TOPIC):zj2m.valid_subscribe_topic,
             vol.Optional(CONF_SPEED_VALUE_TEMPLATE): cv.template,
             vol.Optional(CONF_STATE_VALUE_TEMPLATE): cv.template,
             vol.Optional(CONF_UNIQUE_ID): cv.string,
@@ -322,7 +322,7 @@ class MqttFan(MqttEntity, FanEntity):
 
         This method is a coroutine.
         """
-        mqtt.async_publish(
+       zj2m.async_publish(
             self.hass,
             self._topic[CONF_COMMAND_TOPIC],
             self._payload["STATE_ON"],
@@ -340,7 +340,7 @@ class MqttFan(MqttEntity, FanEntity):
 
         This method is a coroutine.
         """
-        mqtt.async_publish(
+       zj2m.async_publish(
             self.hass,
             self._topic[CONF_COMMAND_TOPIC],
             self._payload["STATE_OFF"],
@@ -367,7 +367,7 @@ class MqttFan(MqttEntity, FanEntity):
         else:
             mqtt_payload = speed
 
-        mqtt.async_publish(
+       zj2m.async_publish(
             self.hass,
             self._topic[CONF_SPEED_COMMAND_TOPIC],
             mqtt_payload,
@@ -389,7 +389,7 @@ class MqttFan(MqttEntity, FanEntity):
         else:
             payload = self._payload["OSCILLATE_ON_PAYLOAD"]
 
-        mqtt.async_publish(
+       zj2m.async_publish(
             self.hass,
             self._topic[CONF_OSCILLATION_COMMAND_TOPIC],
             payload,
