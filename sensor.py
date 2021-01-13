@@ -27,7 +27,7 @@ from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 from homeassistant.util import dt as dt_util
 
 from . import CONF_QOS, CONF_STATE_TOPIC, DOMAIN, PLATFORMS, subscription
-from .. import mqtt
+from .. import mqtt_zj2m
 from .debug_info import log_messages
 from .mixins import (
     MQTT_AVAILABILITY_SCHEMA,

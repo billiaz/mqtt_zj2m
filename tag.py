@@ -13,7 +13,7 @@ from homeassistant.helpers.dispatcher import (
 )
 
 from . import CONF_QOS, CONF_TOPIC, DOMAIN, subscription
-from .. import mqtt
+from .. import mqtt_zj2m
 from .const import ATTR_DISCOVERY_HASH, ATTR_DISCOVERY_TOPIC
 from .discovery import MQTT_DISCOVERY_DONE, MQTT_DISCOVERY_UPDATED, clear_discovery_hash
 from .mixins import (
