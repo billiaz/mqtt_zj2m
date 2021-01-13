@@ -72,7 +72,7 @@ from .util import _VALID_QOS_SCHEMA, valid_publish_topic, valid_subscribe_topic
 
 _LOGGER = logging.getLogger(__name__)
 
-DATA_MQTT = "mqtt"
+DATA_MQTT = "zj2m"
 
 SERVICE_PUBLISH = "publish"
 SERVICE_DUMP = "dump"

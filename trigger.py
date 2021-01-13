@@ -57,7 +57,7 @@ async def async_attach_trigger(hass, config, action, automation_info):
 
             hass.async_run_hass_job(job, {"trigger": data})
 
-    remove = awaitzj2m.async_subscribe(
+    remove = await zj2m.async_subscribe(
         hass, topic, mqtt_automation_listener, encoding=encoding, qos=qos
     )
     return remove

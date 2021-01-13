@@ -240,7 +240,7 @@ async def async_start(
     hass.data[ALREADY_DISCOVERED] = {}
     hass.data[PENDING_DISCOVERED] = {}
 
-    hass.data[DISCOVERY_UNSUBSCRIBE] = awaitzj2m.async_subscribe(
+    hass.data[DISCOVERY_UNSUBSCRIBE] = await zj2m.async_subscribe(
         hass, f"{discovery_topic}/#", async_discovery_message_received, 0
     )
     hass.data[LAST_DISCOVERY] = time.time()
@@ -277,7 +277,7 @@ async def async_start(
 
         for topic in topics:
             key = f"{integration}_{topic}"
-            hass.data[INTEGRATION_UNSUBSCRIBE][key] = awaitzj2m.async_subscribe(
+            hass.data[INTEGRATION_UNSUBSCRIBE][key] = await zj2m.async_subscribe(
                 hass,
                 topic,
                 functools.partial(async_integration_message_received, integration),

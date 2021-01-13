@@ -46,7 +46,7 @@ class EntitySubscription:
         # Prepare debug data
         debug_info.add_subscription(self.hass, self.message_callback, self.topic)
 
-        self.unsubscribe_callback = awaitzj2m.async_subscribe(
+        self.unsubscribe_callback = await zj2m.async_subscribe(
             hass, self.topic, self.message_callback, self.qos, self.encoding
         )
 
